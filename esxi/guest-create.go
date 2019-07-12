@@ -132,9 +132,9 @@ func guestCREATE(c *Config, guest_name string, disk_store string,
 
 			if hasISO == true {
 				vmx_contents = vmx_contents +
-				// Create CDROM and mount ISO for CentOS 7 kickstart
+				// Create CDROM and mount ISO
 				fmt.Sprintf("sata0.present = \\\"TRUE\\\"\n") +
-				fmt.Sprintf("ide1:0.fileName = \\\"%s\\\"\n", isofilename) +
+				fmt.Sprintf("sata0:0.fileName = \\\"%s\\\"\n", isofilename) +
 				fmt.Sprintf("sata0:0.deviceType = \\\"cdrom-image\\\"\n") +
 				fmt.Sprintf("sata0:0.present = \\\"TRUE\\\"\n") +
 				fmt.Sprintf("sata0:0.autodetect = \\\"TRUE\\\"\n") +
