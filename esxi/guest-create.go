@@ -129,8 +129,16 @@ func guestCREATE(c *Config, guest_name string, disk_store string,
 				fmt.Sprintf("scsi0:0.present = \\\"TRUE\\\"\n") +
 				fmt.Sprintf("scsi0:0.fileName = \\\"%s.vmdk\\\"\n", guest_name) +
 				fmt.Sprintf("scsi0:0.deviceType = \\\"scsi-hardDisk\\\"\n")
-		if hasISO == true {
-			vmx_contents = vmx_contents +
+				// Create CDROM and mount ISO for CentOS 7 kickstart
+				fmt.Sprintf("sata0.present = \\\"TRUE\\\"\n")
+				fmt.Sprintf("sata0:0.deviceType = \\\"cdrom-image\\\"\n")
+				fmt.Sprintf("sata0:0.fileName = \\\"/vmfs/volumes/5858dea9-16468bcd-905c-90b11c4fbcfc/ISOs/CentOS-7-x86_64-NetInstall-1804-KS.iso\\\"\n")
+				fmt.Sprintf("sata0:0.present = \\\"TRUE\\\"\n")
+				fmt.Sprintf("sata0:0.autodetect = \\\"TRUE\\\"\n")
+				fmt.Sprintf("sata0.pciSlotNumber = \\\"35\\\"\n")
+
+			if hasISO == true {
+				vmx_contents = vmx_contents +
 				fmt.Sprintf("ide1:0.present = \\\"TRUE\\\"\n") +
 				fmt.Sprintf("ide1:0.fileName = \\\"emptyBackingString\\\"\n") +
 				fmt.Sprintf("ide1:0.deviceType = \\\"atapi-cdrom\\\"\n") +
