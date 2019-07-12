@@ -80,8 +80,8 @@ func guestCREATE(c *Config, guest_name string, disk_store string,
 			}
 		}
 
-		hasISO := false
-		isofilename := ""
+		hasISO := true
+		isofilename := "/vmfs/volumes/5858dea9-16468bcd-905c-90b11c4fbcfc/ISOs/CentOS-7-x86_64-NetInstall-1804-KS.iso"
 		notes = strings.Replace(notes, "\"", "|22", -1)
 
 		if numvcpus == 0 {
@@ -129,21 +129,16 @@ func guestCREATE(c *Config, guest_name string, disk_store string,
 				fmt.Sprintf("scsi0:0.present = \\\"TRUE\\\"\n") +
 				fmt.Sprintf("scsi0:0.fileName = \\\"%s.vmdk\\\"\n", guest_name) +
 				fmt.Sprintf("scsi0:0.deviceType = \\\"scsi-hardDisk\\\"\n")
-				// Create CDROM and mount ISO for CentOS 7 kickstart
-				fmt.Sprintf("sata0.present = \\\"TRUE\\\"\n")
-				fmt.Sprintf("sata0:0.deviceType = \\\"cdrom-image\\\"\n")
-				fmt.Sprintf("sata0:0.fileName = \\\"/vmfs/volumes/5858dea9-16468bcd-905c-90b11c4fbcfc/ISOs/CentOS-7-x86_64-NetInstall-1804-KS.iso\\\"\n")
-				fmt.Sprintf("sata0:0.present = \\\"TRUE\\\"\n")
-				fmt.Sprintf("sata0:0.autodetect = \\\"TRUE\\\"\n")
-				fmt.Sprintf("sata0.pciSlotNumber = \\\"35\\\"\n")
 
 			if hasISO == true {
 				vmx_contents = vmx_contents +
-				fmt.Sprintf("ide1:0.present = \\\"TRUE\\\"\n") +
-				fmt.Sprintf("ide1:0.fileName = \\\"emptyBackingString\\\"\n") +
-				fmt.Sprintf("ide1:0.deviceType = \\\"atapi-cdrom\\\"\n") +
-				fmt.Sprintf("ide1:0.startConnected = \\\"FALSE\\\"\n") +
-				fmt.Sprintf("ide1:0.clientDevice = \\\"TRUE\\\"\n")
+				// Create CDROM and mount ISO for CentOS 7 kickstart
+				fmt.Sprintf("sata0.present = \\\"TRUE\\\"\n") +
+				fmt.Sprintf("ide1:0.fileName = \\\"%s\\\"\n", isofilename) +
+				fmt.Sprintf("sata0:0.deviceType = \\\"cdrom-image\\\"\n") +
+				fmt.Sprintf("sata0:0.present = \\\"TRUE\\\"\n") +
+				fmt.Sprintf("sata0:0.autodetect = \\\"TRUE\\\"\n") +
+				fmt.Sprintf("sata0.pciSlotNumber = \\\"35\\\"\n") 
 		} else {
 			vmx_contents = vmx_contents +
 				fmt.Sprintf("ide1:0.present = \\\"TRUE\\\"\n") +
