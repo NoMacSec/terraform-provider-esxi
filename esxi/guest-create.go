@@ -81,7 +81,7 @@ func guestCREATE(c *Config, guest_name string, disk_store string,
 		}
 
 		hasISO := true
-		isofilename := "/vmfs/volumes/5858dea9-16468bcd-905c-90b11c4fbcfc/ISOs/CentOS-7-x86_64-NetInstall-1804-KS.iso"
+		isofilename := "/vmfs/volumes/5858dea9-16468bcd-905c-90b11c4fbcfc/ISOs/CentOS-7-Custom-Netinstall.iso"
 		notes = strings.Replace(notes, "\"", "|22", -1)
 
 		if numvcpus == 0 {
